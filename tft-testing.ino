@@ -57,8 +57,8 @@
 #include <SPI.h>
 
 // #define USER_SETUP_LOADED
-#include "Undefines.h"
-#include "ILI9486_RPI_Setup.h"
+// #include "Undefines.h"
+// #include "ILI9486_RPI_Setup.h"
 #include <TFT_eSPI.h>       // Hardware-specific library
 
 
@@ -83,6 +83,8 @@ void setup() {
 
   // Initialise the TFT screen
   tft.init();
+
+  tft.print("Testing shit");
 }
 
 //------------------------------------------------------------------------------------------
