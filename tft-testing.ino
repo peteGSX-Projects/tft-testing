@@ -6,8 +6,8 @@
 MCUFRIEND_kbv tft;
 
 void setup() {
+  Serial.begin(115200);
   Serial.println(F("Testing"));
-  delay(2000);
   uint16_t screenId = tft.readID();
   tft.begin(screenId);
   tft.setTextSize(1);
