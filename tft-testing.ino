@@ -17,6 +17,8 @@
 #define ROTATION 0
 #define TEXT_FONT &FreeMono9pt7b
 #define OLED_ADDRESS 0x3C
+#define TEXT_COLOUR WHITE
+#define BACKGROUND_COLOUR BLACK
 
 #define SCREEN_TYPE OLED_SSD1306
 
@@ -46,6 +48,7 @@ void setup() {
   oled.setRotation(ROTATION);
   oled.setFont(gfxFont);
   oled.setTextSize(TEXT_SIZE);
+  oled.setTextColor(TEXT_COLOUR);
   oled.display();
   delay(2000);
   oled.clearDisplay();
@@ -67,21 +70,24 @@ void setup() {
   Serial.print(F("|"));
   Serial.println(maxColumns);
   oled.setCursor(0, fontHeight);
-  oled.setTextColor(WHITE);
   oled.print("Testing");
   oled.display();
 }
 
+uint8_t counter = 0;
+
 void loop() {
   if (millis() - lastDisplay > displayDelay) {
     lastDisplay = millis();
-    oled.clearDisplay();
-    oled.display();
+    // oled.clearDisplay();
+    // oled.display();
     for (uint8_t i = 0; i < maxRows; i++) {
       int16_t y = (i * fontHeight) + fontHeight;
+      clearRow(i, BACKGROUND_COLOUR);
+      oled.setTextColor(TEXT_COLOUR);
       oled.setCursor(0, y);
-      oled.print("Test row ");
-      oled.print(i);
+      oled.print("Counter ");
+      oled.print(counter++);
     }
     oled.display();
   }
@@ -92,4 +98,13 @@ uint8_t getTextWidth() {
   uint16_t w, h;
   oled.getTextBounds("A", 0, 0, &x1, &y1, &w, &h);
   return w;
+}
+
+void clearRow(uint8_t row, uint16_t backgroundColour) {
+  int16_t x = 0;
+  int16_t y = (row * fontHeight) + fontHeight;
+  int16_t w = fontWidth * maxColumns;
+  int16_t h = fontHeight;
+  oled.fillRect(x, y, w, h, backgroundColour);
+  oled.display();
 }
