@@ -26,6 +26,14 @@ Adafruit_SSD1306 oled = Adafruit_SSD1306(SCREEN_WIDTH, SCREEN_HEIGHT, &Wire);
 Adafruit_SH1106G oled = Adafruit_SH1106G(SCREEN_WIDTH, SCREEN_HEIGHT, &Wire);
 #endif
 
+uint8_t fontHeight = 0;
+uint8_t fontWidth = 0;
+uint8_t maxRows = 0;
+uint8_t maxColumns = 0;
+
+unsigned long lastDisplay = 0;
+unsigned long displayDelay = 1000;
+
 void setup() {
   Serial.begin(115200);
   Serial.println(F("OLED Testing"));
@@ -42,10 +50,10 @@ void setup() {
   delay(2000);
   oled.clearDisplay();
   oled.display();
-  uint8_t fontHeight = gfxFont->yAdvance;
-  uint8_t fontWidth = getTextWidth();
-  uint8_t maxRows = oled.height() / fontHeight;
-  uint8_t maxColumns = oled.width() / fontWidth;
+  fontHeight = gfxFont->yAdvance;
+  fontWidth = getTextWidth();
+  maxRows = oled.height() / fontHeight;
+  maxColumns = oled.width() / fontWidth;
   Serial.print(F("Setup done: fontHeight|fontWidth|tftHeight|tftWidth|maxRows|maxColumns: "));
   Serial.print(fontHeight);
   Serial.print(F("|"));
@@ -65,7 +73,18 @@ void setup() {
 }
 
 void loop() {
-
+  if (millis() - lastDisplay > displayDelay) {
+    lastDisplay = millis();
+    oled.clearDisplay();
+    oled.display();
+    for (uint8_t i = 0; i < maxRows; i++) {
+      int16_t y = (i * fontHeight) + fontHeight;
+      oled.setCursor(0, y);
+      oled.print("Test row ");
+      oled.print(i);
+    }
+    oled.display();
+  }
 }
 
 uint8_t getTextWidth() {
