@@ -31,13 +31,13 @@ void setup() {
 }
 
 void loop() {
-// #ifdef TOUCH_CS
-//   uint16_t touchX, touchY;
-//   if (tft1.getTouch(&touchX, &touchY)) {
-//     Serial.print(F("Touch X|Y: "));
-//     Serial.print(touchX);
-//     Serial.print(F("|"));
-//     Serial.println(touchY);
-//   }
-// #endif
+#ifdef TOUCH_CS
+  uint16_t touchX, touchY;
+  if (tft1.getTouch(&touchX, &touchY)) {
+    Serial.print(F("Touch X|Y: "));
+    Serial.print(touchX);
+    Serial.print(F("|"));
+    Serial.println(touchY);
+  }
+#endif
 }
