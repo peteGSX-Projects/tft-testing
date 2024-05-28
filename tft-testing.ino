@@ -1,8 +1,8 @@
 #include <Arduino.h>
 #include <SPI.h>
 // #include "ClearSetup.h"
-#define USER_SETUP_LOADED
-#include "myUserSetup.h"
+// #define USER_SETUP_LOADED
+// #include "myUserSetup.h"
 #include <TFT_eSPI.h>
 
 #define TEXT_SIZE 1
@@ -18,6 +18,10 @@ TFT_eSPI tft1 = TFT_eSPI();
 // TFT_eSPI tft2 = TFT_eSPI();
 
 void setup() {
+  pinMode(16, OUTPUT);
+  pinMode(22, OUTPUT);
+  digitalWrite(16, HIGH);
+  digitalWrite(22, HIGH);
   Serial.begin(115200);
   Serial.println(F("Multi TFT Testing"));
   tft1.begin();
